@@ -12,7 +12,7 @@ export default async (req: NextApiRequest , res: NextApiResponse) => {
     //Verify request
 
     const checkRequest = userRequest(email , cpf , password , name);
-    
+    console.log(cpf);
     if ( checkRequest.status == false ) {
         return res.status(403).json( { message: checkRequest.message } );
     }
