@@ -1,4 +1,4 @@
-import { createUserModel, findUserModelByCPF, findUserModelByEmail } from '../model/User';
+import { createUserModel, findUserModelByCPF, findUserModelByEmail, findUserModelLogin } from '../model/User';
 
 export async function createUser(_email:string , _cpf:string , _password:string , _name?:string) {
     const userByCPF = await findUserModelByCPF(_cpf);
@@ -15,4 +15,13 @@ export async function createUser(_email:string , _cpf:string , _password:string 
 
     const response = await createUserModel(_cpf , _email , _password , _name);
     return response;
+}
+
+export async function login(_email:string , _password:string) {
+    const userLogin = await findUserModelLogin(_email , _password);
+
+    if (userLogin == undefined) {
+        return { message: "Incorrect email or password" }
+    }
+
 }

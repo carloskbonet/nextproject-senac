@@ -34,3 +34,14 @@ export async function findUserModelByEmail(_email:string) {
 
     return user;
 }
+
+export async function findUserModelLogin(_email:string, _password:string) {
+    const user = await prisma.user.findUnique({
+        where: {
+            email: _email,
+            password: _password
+        }
+    });
+
+    return user;
+}

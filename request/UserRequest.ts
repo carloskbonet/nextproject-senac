@@ -1,7 +1,7 @@
 import { isEmail , checkMinAndMaxLength } from "./Check";
 
 export function userRequest(_email:any , _cpf:any , _password:any , _name:any) {
-    if ( !checkMinAndMaxLength(_cpf , 11 , 14) ) {
+    if ( !checkMinAndMaxLength(_cpf , 14 , 14) ) {
         return { status: false, message: "Invalid CPF" }
     }
     
@@ -9,7 +9,7 @@ export function userRequest(_email:any , _cpf:any , _password:any , _name:any) {
         return { status: false, message: "Invalid Password" }
     }
 
-    if ( !checkMinAndMaxLength(_name, 3, 32) && _name != undefined) {
+    if ( !checkMinAndMaxLength(_name, 3, 32) && _name != undefined && _name != '') {
         return { status: false, message: "Invalid Name" }
     }
 
