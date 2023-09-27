@@ -1,8 +1,12 @@
 import Head from "next/head";
 import Link from "next/link";
 import { useState } from "react";
+import { setCookie } from "cookies-next";
+import { useRouter } from "next/router";
 
 export default function loginPage() {
+    const router = useRouter();
+
     const [ formData , setFormData ] = useState({
         email: '',
         password: ''
@@ -32,9 +36,16 @@ export default function loginPage() {
             console.log(responseJson);
             console.log(response.status);
 
-        }
-        catch (err) {
+            if (response.status != 200) {
+                throw new Error(responseJson.message);
+            }
 
+            setCookie('authorization', responseJson.token);
+
+            router.push(`/`);
+        }
+        catch (err:any) {
+            alert(err.message);
         }
     }
 
