@@ -1,3 +1,4 @@
+import { generateToken } from '@/services/tokenConfig';
 import { createUserModel, findUserModelByCPF, findUserModelByEmail, findUserModelLogin } from '../model/User';
 
 export async function createUser(_email:string , _cpf:string , _password:string , _name?:string) {
@@ -24,4 +25,7 @@ export async function login(_email:string , _password:string) {
         return { message: "Incorrect email or password" }
     }
 
+    const _token = generateToken(userLogin.email);
+
+    return { token: _token }
 }
