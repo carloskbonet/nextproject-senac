@@ -1,25 +1,26 @@
 import Head from "next/head";
 import Link from "next/link";
 import { useState } from "react";
-import { setCookie } from "cookies-next";
+import { getCookie, setCookie } from "cookies-next";
 import { useRouter } from "next/router";
+import { checkToken } from "@/services/tokenConfig";
 
 export default function loginPage() {
     const router = useRouter();
 
-    const [ formData , setFormData ] = useState({
+    const [formData, setFormData] = useState({
         email: '',
         password: ''
     })
 
-    function handleFormEdit(event:any , field:any) {
+    function handleFormEdit(event: any, field: any) {
         setFormData({
             ...formData,
-            [field] : event.target.value
+            [field]: event.target.value
         });
     }
 
-    async function formSubmit(event:any) {
+    async function formSubmit(event: any) {
         try {
             event.preventDefault();
 
@@ -44,7 +45,7 @@ export default function loginPage() {
 
             router.push(`/`);
         }
-        catch (err:any) {
+        catch (err: any) {
             alert(err.message);
         }
     }
@@ -59,12 +60,12 @@ export default function loginPage() {
                 <form onSubmit={formSubmit}>
 
                     <input type="email" placeholder="Email" value={formData.email}
-                    onChange={(event) => handleFormEdit(event , 'email')} required />
+                        onChange={(event) => handleFormEdit(event, 'email')} required />
 
                     <br />
 
                     <input type="password" placeholder="Senha" value={formData.password}
-                    onChange={(event) => handleFormEdit(event , 'password')} required />
+                        onChange={(event) => handleFormEdit(event, 'password')} required />
 
                     <br />
                     <button>Enviar</button>
@@ -74,4 +75,29 @@ export default function loginPage() {
             </div>
         </main>
     );
+}
+
+export function getServerSideProps({ req, res }: any) {
+    try {
+        const token = getCookie('authorization', { req, res });
+
+        if (!token) {
+            throw new Error('Invalid token');
+        }
+
+        checkToken(token);
+
+        return {
+            redirect: {
+                permanent: false,
+                destination: `/`,
+            },
+            props: {}
+        };
+    }
+    catch (err) {
+        return {
+            props: {}
+        }
+    }
 }
