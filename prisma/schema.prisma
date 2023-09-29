@@ -16,4 +16,44 @@ model user {
   cpf      String  @unique
   email    String  @unique
   password String
+
+  created_at  DateTime @default(now())
+  updated_at  DateTime  @updatedAt
+
+  ratings rating[]
+}
+
+model movie {
+  id          Int      @id @unique @default(autoincrement())
+  name        String
+  releaseDate DateTime
+
+  created_at  DateTime @default(now())
+  updated_at  DateTime  @updatedAt
+
+  genres genre[]
+  ratings rating[]
+}
+
+model rating {
+  id    Int @id @unique @default(autoincrement())
+  value Int
+
+  created_at  DateTime @default(now())
+  updated_at  DateTime  @updatedAt
+
+  userId  Int
+  movieId Int
+  user    user  @relation(fields: [userId], references: [id])
+  movie   movie @relation(fields: [movieId], references: [id])
+}
+
+model genre {
+  id   Int    @id @unique @default(autoincrement())
+  name String
+
+  created_at  DateTime @default(now())
+  updated_at  DateTime  @updatedAt
+
+  movies movie[]
 }
