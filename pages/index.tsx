@@ -2,17 +2,54 @@ import { checkToken } from '@/services/tokenConfig';
 import { deleteCookie, getCookie } from 'cookies-next'
 import { Inter } from 'next/font/google'
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 import styles from "@/styles/home.module.css";
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
   const router = useRouter();
+  const [name, setName] = useState("");
+  const [movie, setMovie] = useState({
+    name: '',
+    releaseDate: '',
+    createdAt: '',
+    updatedAt: ''
+  })
 
   function logOut() {
     deleteCookie('authorization');
-
     router.push(`/user/login`);
+  }
+
+  function handleFormEdit(event: any) {
+    setName(event.target.value);
+  }
+
+  async function formSubmit(event: any) {
+    try {
+      event.preventDefault();
+
+      const response = await fetch(`/api/actions/movie/find?name=` + name, {
+        method: 'GET'
+      })
+
+      const responseJson = await response.json();
+
+      console.log(response.status);
+      console.log(responseJson);
+
+      setMovie({
+        ...movie,
+        name: responseJson.name,
+        releaseDate: responseJson.releaseDate,
+        createdAt: responseJson.created_at,
+        updatedAt: responseJson.updated_at
+      })
+    }
+    catch (err) {
+      console.log(err);
+    }
   }
 
   return (
@@ -20,7 +57,17 @@ export default function Home() {
       <div className={styles.navBar}>
         <button className={styles.logout} onClick={logOut}>Log Out</button>
 
-        <input className={styles.searchBar} type="text" placeholder='Search bar' />
+        <form onSubmit={formSubmit}>
+          <input className={styles.searchBar} type="text" placeholder='Search bar'
+            value={name} onChange={(evento) => { handleFormEdit(evento) }} />
+        </form>
+      </div>
+
+      <div className={styles.container}>
+        <p>{movie.name}</p>
+        <p>{movie.releaseDate}</p>
+        <p>{movie.createdAt}</p>
+        <p>{movie.updatedAt}</p>
       </div>
     </main>
   )
