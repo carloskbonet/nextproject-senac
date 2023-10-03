@@ -59,6 +59,9 @@ CREATE UNIQUE INDEX "user_email_key" ON "user"("email");
 CREATE UNIQUE INDEX "movie_id_key" ON "movie"("id");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "movie_name_key" ON "movie"("name");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "rating_id_key" ON "rating"("id");
 
 -- CreateIndex

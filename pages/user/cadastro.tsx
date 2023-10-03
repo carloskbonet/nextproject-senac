@@ -2,6 +2,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import styles from "@/styles/login.module.css";
 
 export default function cadastroPage() {
     // Constante para navegação entre páginas
@@ -64,35 +65,35 @@ export default function cadastroPage() {
                 <title>Cadastro</title>
             </Head>
 
-            <div className="form-Card">
+            <div className={styles.formCard}>
                 <form onSubmit={formSubmit}>
-                    {error && <p className="errorText">{error}</p>}
+                    {error && <p className={styles.errorText}>{error}</p>}
 
                     <br />
 
-                    <input type="text" placeholder="Nome (Não obrigatório)" value={formData.name}
+                    <input className={styles.input} type="text" placeholder="Nome (Não obrigatório)" value={formData.name}
                         onChange={(evento) => { handleFormEdit(evento, 'name') }} />
 
                     <br></br>
 
-                    <input type="text" placeholder="CPF" value={formData.cpf}
+                    <input className={styles.input} type="text" placeholder="CPF" value={formData.cpf}
                         onChange={(evento) => { handleFormEdit(evento, 'cpf') }} required />
 
                     <br></br>
 
-                    <input type="email" placeholder="Email" value={formData.email}
+                    <input className={styles.input} type="email" placeholder="Email" value={formData.email}
                         onChange={(evento) => { handleFormEdit(evento, 'email') }} required />
 
                     <br></br>
 
-                    <input type="password" placeholder="Senha" value={formData.password}
+                    <input className={styles.input} type="password" placeholder="Senha" value={formData.password}
                         onChange={(evento) => { handleFormEdit(evento, 'password') }} required />
 
                     <br></br>
-                    <button>Enviar</button>
+                    <button className={styles.button}>Enviar</button>
                 </form>
 
-                <Link href={`/user/login`}>Já tenho uma conta</Link>
+                <Link className={styles.sendButton} href={`/user/login`}>Já tenho uma conta</Link>
             </div>
 
         </main>

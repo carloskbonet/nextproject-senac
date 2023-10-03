@@ -4,6 +4,7 @@ import { useState } from "react";
 import { getCookie, setCookie } from "cookies-next";
 import { useRouter } from "next/router";
 import { checkToken } from "@/services/tokenConfig";
+import styles from "@/styles/login.module.css";
 
 export default function loginPage() {
     const router = useRouter();
@@ -56,22 +57,22 @@ export default function loginPage() {
                 <title>Login</title>
             </Head>
 
-            <div className="form-Card">
+            <div className={styles.formCard}>
                 <form onSubmit={formSubmit}>
 
-                    <input type="email" placeholder="Email" value={formData.email}
+                    <input className={styles.input} type="email" placeholder="Email" value={formData.email}
                         onChange={(event) => handleFormEdit(event, 'email')} required />
 
                     <br />
 
-                    <input type="password" placeholder="Senha" value={formData.password}
+                    <input className={styles.input} type="password" placeholder="Senha" value={formData.password}
                         onChange={(event) => handleFormEdit(event, 'password')} required />
 
                     <br />
-                    <button>Enviar</button>
+                    <button className={styles.button} >Enviar</button>
                 </form>
 
-                <Link href={`/user/cadastro`}>Criar Conta</Link>
+                <Link className={styles.sendButton} href={`/user/cadastro`}>Criar Conta</Link>
             </div>
         </main>
     );

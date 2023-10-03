@@ -25,7 +25,7 @@ model user {
 
 model movie {
   id          Int      @id @unique @default(autoincrement())
-  name        String
+  name        String  @unique
   releaseDate DateTime
 
   created_at  DateTime @default(now())

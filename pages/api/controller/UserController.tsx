@@ -1,5 +1,5 @@
 import { generateToken } from '@/services/tokenConfig';
-import { createUserModel, findUserModelByCPF, findUserModelByEmail, findUserModelLogin } from '../model/User';
+import { createUserModel, findUserModelByCPF, findUserModelByEmail, findUserModelLogin } from '../model/user';
 
 export async function createUser(_email:string , _cpf:string , _password:string , _name?:string) {
     const userByCPF = await findUserModelByCPF(_cpf);
