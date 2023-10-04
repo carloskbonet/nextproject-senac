@@ -81,18 +81,20 @@ export default function Home() {
         </form>
       </div>
 
-      {data != undefined && data instanceof Array ?
-        data.map(item => (
-          <div className={styles.container}>
-            <p>{item.id}</p>
-            <p>{item.name}</p>
-            <p>{item.releaseDate}</p>
-            <p>{item.created_at}</p>
-            <p>{item.updated_at}</p>
-          </div>
-        ))
-        : <p>No movies found</p>
-      }
+      <div className={styles.gridContainer}>
+        {data != undefined && data instanceof Array ?
+          data.map(item => (
+            <div className={styles.container}>
+              <p>{item.id}</p>
+              <p>{item.name}</p>
+              <p>{item.releaseDate}</p>
+              <p>{item.created_at}</p>
+              <p>{item.updated_at}</p>
+            </div>
+          ))
+          : <p>No movies found</p>
+        }
+      </div>
 
       <div className={styles.container}>
         <p>{movie.name}</p>
