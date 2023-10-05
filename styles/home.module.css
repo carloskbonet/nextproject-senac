@@ -34,7 +34,7 @@
 }
 
 .navBar{
-    background-color: rgb(238, 164, 79);
+    background-color: rgb(255, 99, 99);
     display: grid;
     grid-template-columns: auto auto auto;
     padding: 10px;
@@ -48,15 +48,42 @@
 
 .container{
     margin-top: 5%;
-    background-color: gray;
+    background-color: rgb(152, 89, 163);
     width: 90%;
     height: 200px;
     border-radius: 10px;
     padding: 10px;
     color: white;
-    text-align: center;
+    display: grid;
+    grid-template-columns: auto auto;
+}
+
+.container:hover {
+    background-color: rgb(136, 136, 136);
 }
 
 .container p {
     margin-bottom: 10px;
+}
+
+.movieImg {
+    max-height: 160px;
+}
+
+.infos {
+    margin-top: 5%;
+}
+
+#movieName {
+    font-weight: bold;
+    font-size: 200%;
+    color: rgb(255, 255, 255);
+}
+
+#movieReleaseDateLabel {
+    color: white;
+}
+
+#movieReleaseDate {
+    color: rgb(255, 201, 236);
 }

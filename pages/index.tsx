@@ -65,6 +65,7 @@ export default function Home() {
         createdAt: responseJson.created_at,
         updatedAt: responseJson.updated_at
       })
+      setData(responseJson);
     }
     catch (err) {
       console.log(err);
@@ -72,14 +73,14 @@ export default function Home() {
   }
 
   function prettifyDateTime(str: string) {
-    // Splitting the string between date and time
     const [date, time] = str.split("T");
-
-    // Assuming 03 is the month and 01 is the day – otherwise, those could be swapped
     const [year, month, day] = date.split("-")
-
-    // Added slashes and the space before the time
+    
     return `${day}/${month}/${year}`
+  }
+
+  function movieClick() {
+    console.log("Clicked");
   }
 
   return (
@@ -94,29 +95,30 @@ export default function Home() {
 
         <button className={styles.logout} onClick={logOut}>Log Out</button>
 
-      </nav>  
+      </nav>
 
       <div className={styles.gridContainer}>
         {data != undefined && data instanceof Array ?
           data.map(item => (
-            <div className={styles.container}>
-              <p>{item.id}</p>
-              <p>{item.name}</p>
-              <p>{prettifyDateTime(item.releaseDate)}</p>
-              <p>{prettifyDateTime(item.created_at)}</p>
-              <p>{prettifyDateTime(item.updated_at)}</p>
+            <div onClick={movieClick} className={styles.container}>
+              <img className={styles.movieImg} src="/images/movie.png" alt="" />
+              
+              <div className={styles.infos}>
+                <h1 id={styles.movieName}>{item.name}</h1>
+
+                <label id={styles.movieReleaseDateLabel}>Data de Lançamento: </label>
+                <a id={styles.movieReleaseDate}>{prettifyDateTime(item.releaseDate)}</a>
+
+                <p>{prettifyDateTime(item.created_at)}</p>
+                <p>{prettifyDateTime(item.updated_at)}</p>
+
+              </div>
             </div>
           ))
           : <p>No movies found</p>
         }
       </div>
 
-      <div className={styles.container}>
-        <p>{movie.name}</p>
-        <p>{movie.releaseDate}</p>
-        <p>{movie.createdAt}</p>
-        <p>{movie.updatedAt}</p>
-      </div>
     </main>
   )
 }
