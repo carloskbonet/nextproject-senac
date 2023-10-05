@@ -3,6 +3,7 @@ import { deleteCookie, getCookie } from 'cookies-next'
 import { Inter } from 'next/font/google'
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import styles from "@/styles/home.module.css";
 
 const inter = Inter({ subsets: ['latin'] })
@@ -70,16 +71,30 @@ export default function Home() {
     }
   }
 
+  function prettifyDateTime(str: string) {
+    // Splitting the string between date and time
+    const [date, time] = str.split("T");
+
+    // Assuming 03 is the month and 01 is the day – otherwise, those could be swapped
+    const [year, month, day] = date.split("-")
+
+    // Added slashes and the space before the time
+    return `${day}/${month}/${year}`
+  }
+
   return (
     <main className={`flex min-h-screen flex-col  ${inter.className}`}>
-      <div className={styles.navBar}>
-        <button className={styles.logout} onClick={logOut}>Log Out</button>
+      <nav className={styles.navBar}>
+        <Link className={styles.createMovie} href={'/movie/create'}>Criar um filme</Link>
 
         <form onSubmit={formSubmit}>
           <input className={styles.searchBar} type="text" placeholder='Search bar'
             value={name} onChange={(evento) => { handleFormEdit(evento) }} />
         </form>
-      </div>
+
+        <button className={styles.logout} onClick={logOut}>Log Out</button>
+
+      </nav>  
 
       <div className={styles.gridContainer}>
         {data != undefined && data instanceof Array ?
@@ -87,9 +102,9 @@ export default function Home() {
             <div className={styles.container}>
               <p>{item.id}</p>
               <p>{item.name}</p>
-              <p>{item.releaseDate}</p>
-              <p>{item.created_at}</p>
-              <p>{item.updated_at}</p>
+              <p>{prettifyDateTime(item.releaseDate)}</p>
+              <p>{prettifyDateTime(item.created_at)}</p>
+              <p>{prettifyDateTime(item.updated_at)}</p>
             </div>
           ))
           : <p>No movies found</p>
@@ -105,9 +120,6 @@ export default function Home() {
     </main>
   )
 }
-
-
-
 
 
 

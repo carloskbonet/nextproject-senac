@@ -1,5 +1,5 @@
 .logout {
-    margin-left: 90%;
+    margin-left: 50%;
     margin-top: 1.5%;
     background-color: black;
     border-radius: 5px;
@@ -13,15 +13,31 @@
     background-color: white;
 }
 
+.createMovie {
+    background-color: rgba(52, 52, 187, 0.562);
+    border-radius: 5px;
+    height: 30px;
+    width: 120px;
+    color: white;
+    text-align: center;
+}
+
+.createMovie:hover {
+    color: black;
+    background-color: rgb(35, 202, 105);
+}
+
 .searchBar {
-    width: 40%;
-    margin-bottom: 10px;
-    margin-left: 30%;
+    width: 80%;
+    margin-top: 10px;
     border-radius: 5px;
 }
 
 .navBar{
     background-color: rgb(238, 164, 79);
+    display: grid;
+    grid-template-columns: auto auto auto;
+    padding: 10px;
 }
 
 .gridContainer {
