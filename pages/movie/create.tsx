@@ -2,6 +2,8 @@ import { useState } from 'react'
 import Head from "next/head";
 import Link from "next/link";
 import styles from "@/styles/login.module.css"
+import { getCookie } from 'cookies-next';
+import { checkToken } from '@/services/tokenConfig';
 
 export default function createMovie() {
     const [formData , setFormData] = useState({
@@ -67,3 +69,27 @@ export default function createMovie() {
         </main>
     );
 }
+
+
+export function getServerSideProps({ req, res }: any) {
+    try {
+      const token = getCookie('authorization', { req, res });
+  
+      if (!token) {
+        throw new Error('Invalid token');
+      }
+  
+      checkToken(token);
+  
+      return { props: {} };
+    }
+    catch (err) {
+      return {
+        redirect: {
+          permanent: false,
+          destination: `/user/login`,
+        },
+        props: {}
+      }
+    }
+  }
