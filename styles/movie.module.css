@@ -1,0 +1,9 @@
+.container {
+    text-align: center;
+    height: auto;
+    margin-top: 100px;
+}
+
+.container h1 {
+    font-size: 36px;
+}

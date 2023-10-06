@@ -12,7 +12,7 @@ export async function createMovieModel(_name:string , _releaseDate:string) {
 }
 
 export async function findMovieByNameModel(_name:string) {
-    const movie = await prisma.movie.findMany({
+    const movie = await prisma.movie.findUnique({
         where: {
             name: _name
         }
