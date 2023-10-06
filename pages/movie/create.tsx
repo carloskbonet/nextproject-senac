@@ -62,6 +62,8 @@ export default function createMovie() {
                     <input className={styles.input} type="date"
                     value={formData.releaseDate} onChange={(event) => handleFormEdit(event, "releaseDate")} />
 
+                    <input className={styles.input} type="file" accept='image/jpeg, image/png , image/jpg' />
+
                     <button className={styles.button}>Enviar</button>
                 </form>
             </div>

@@ -79,8 +79,8 @@ export default function Home() {
     return `${day}/${month}/${year}`
   }
 
-  function movieClick() {
-    console.log("Clicked");
+  function movieClick(movieName:string) {
+    router.push(`/movie/`+movieName); 
   }
 
   return (
@@ -100,7 +100,7 @@ export default function Home() {
       <div className={styles.gridContainer}>
         {data != undefined && data instanceof Array ?
           data.map(item => (
-            <div onClick={movieClick} className={styles.container}>
+            <div onClick={(event) => {movieClick(item.name)}} className={styles.container}>
               <img className={styles.movieImg} src="/images/movie.png" alt="" />
               
               <div className={styles.infos}>
