@@ -1,9 +1,71 @@
-.container {
-    text-align: center;
+.body {
+    background-color: gray;
     height: auto;
-    margin-top: 100px;
+    border-radius: 20px;
+    margin: 5px;
+    padding: 10px;
+    padding-bottom: 100px;
+}
+
+.imageAndInfos {
+    display: grid;
+    grid-template-columns: auto auto;
+}
+
+.container {
+    height: auto;
+    margin-top: 50px;
+    margin-left: -400px;
 }
 
 .container h1 {
     font-size: 36px;
+    background-color: white;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.container p {
+    font-size: 28px;
+    background-color: white;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.movieImg {
+    margin-top: 10px;
+    width: 30rem;
+    height: 20rem;
+    border-radius: 10px;
+}
+
+.comments {
+    background-color: rgb(134, 120, 151);
+    margin-top: 2rem;
+    padding: 10px;
+    border: 2px solid black;
+    border-radius: 10px;
+}
+
+.comments h1 {
+    font-size: 20px;
+    color: black;
+    background-color: rgb(203, 202, 204);
+    padding-left: 10px;
+    border: 2px solid black;
+    border-radius: 5px;
+}
+
+.singleComment {
+    margin-top: 10px;
+    font-size: 18px;
+    color: black;
+    background-color: white;
+    padding-left: 10px;
+    border: 2px solid black;
+    border-radius: 5px;
+}
+
+.singleComment label {
+    
 }
