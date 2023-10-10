@@ -25,8 +25,7 @@ export default function movie({ movieName }: any) {
             event.preventDefault();
             
             const cookieAuth = getCookie('authorization');
-            //const tokenInfos = checkToken(cookieAuth);
-            console.log(cookieAuth);
+            const tokenInfos = checkToken(cookieAuth);
 
             const response = await fetch(`/api/actions/rating/create`, {
                 method: "POST",
@@ -36,14 +35,18 @@ export default function movie({ movieName }: any) {
                 body: JSON.stringify({
                     value: Number(formRating.value),
                     comment: formRating.comment,
-                    email: 'user@gmail.com',
+                    email: tokenInfos.email,
                     movieName: movieName
                 })
             });
 
             const responseJson = await response.json();
 
-            console.log(responseJson);
+            if ( response.status != 200 ) {
+                throw new Error(responseJson.message);
+            }
+
+            alert("Rating created");
         }
         catch (err:any) {
             alert(err.message);

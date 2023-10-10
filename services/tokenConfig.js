@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-const SECRET = process.env.JWT_SECRET;
+const SECRET = process.env.NEXT_PUBLIC_JWT_SECRET;
 
 export function generateToken(_email) {
     return jwt.sign( { email: _email } , SECRET );
@@ -8,6 +8,7 @@ export function generateToken(_email) {
 
 function readToken(token) {
     try {
+        console.log(token);
         return jwt.verify(token , SECRET);
     }
     catch (err) {
