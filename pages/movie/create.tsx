@@ -6,28 +6,61 @@ import { getCookie } from 'cookies-next';
 import { checkToken } from '@/services/tokenConfig';
 
 export default function createMovie() {
-    const [formData , setFormData] = useState({
+    const [formData, setFormData] = useState({
         name: '',
-        releaseDate: ''
+        releaseDate: '',
+        image: ''
     });
+    const [imageUploaded, setImageUploaded] = useState();
 
-    function handleFormEdit(event: any , name: string) {
+    function handleFormEdit(event: any, name: string) {
         setFormData({
             ...formData,
-            [name] : event.target.value
+            [name]: event.target.value
         });
+    }
+
+    function handleFormImage(event: any) {
+        setImageUploaded(event.target.files[0])
     }
 
     async function formSubmit(event: any) {
         event.preventDefault();
 
+        if (!imageUploaded) return;
+
+        try {
+            const img = new FormData();
+            img.append("image", imageUploaded);
+
+            const response = await fetch(`/api/actions/movie/createImage`, {
+                method: "POST",
+                body: img
+            })
+
+            const responseJson = await response.json();
+
+            console.log(responseJson);
+
+            fetchCreateMovie(responseJson.secure_url);
+        }
+        catch (err: any) {
+            alert(err.message);
+        }
+    }
+
+    async function fetchCreateMovie(imageURL: string) {
         try {
             const response = await fetch(`/api/actions/movie/create`, {
                 method: "POST",
                 headers: {
                     'Content-type': 'application/json',
                 },
-                body: JSON.stringify(formData)
+                body: JSON.stringify({
+                    name: formData.name,
+                    releaseDate: formData.releaseDate,
+                    image: imageURL
+                })
             });
 
             const responseJson = await response.json();
@@ -38,7 +71,7 @@ export default function createMovie() {
 
             alert("Movie created.");
         }
-        catch (err:any) {
+        catch (err: any) {
             alert(err.message);
         }
     }
@@ -55,12 +88,16 @@ export default function createMovie() {
                 <form onSubmit={formSubmit}>
 
                     <input className={styles.input} type="text" placeholder="Nome do filme"
-                    value={formData.name} onChange={(event) => handleFormEdit(event , "name")} />
+                        value={formData.name} onChange={(event) => handleFormEdit(event, "name")} />
 
                     <br />
 
                     <input className={styles.input} type="date"
-                    value={formData.releaseDate} onChange={(event) => handleFormEdit(event, "releaseDate")} />
+                        value={formData.releaseDate} onChange={(event) => handleFormEdit(event, "releaseDate")} />
+
+                    <br />
+
+                    <input onChange={handleFormImage} type="file" accept='.jpg, .png, .gif, .jpeg' />
 
                     <button className={styles.button}>Enviar</button>
                 </form>
@@ -73,23 +110,23 @@ export default function createMovie() {
 
 export function getServerSideProps({ req, res }: any) {
     try {
-      const token = getCookie('authorization', { req, res });
-  
-      if (!token) {
-        throw new Error('Invalid token');
-      }
-  
-      checkToken(token);
-  
-      return { props: {} };
+        const token = getCookie('authorization', { req, res });
+
+        if (!token) {
+            throw new Error('Invalid token');
+        }
+
+        checkToken(token);
+
+        return { props: {} };
     }
     catch (err) {
-      return {
-        redirect: {
-          permanent: false,
-          destination: `/user/login`,
-        },
-        props: {}
-      }
+        return {
+            redirect: {
+                permanent: false,
+                destination: `/user/login`,
+            },
+            props: {}
+        }
     }
-  }
+}

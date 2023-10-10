@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import styles from "@/styles/home.module.css";
+import navBarCustom from '@/src/components/navBar';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -101,7 +102,7 @@ export default function Home() {
         {data != undefined && data instanceof Array ?
           data.map(item => (
             <div onClick={() => {movieClick(item.name)}} className={styles.container}>
-              <img className={styles.movieImg} src="/images/movie.png" alt="" />
+              <img className={styles.movieImg} src={item.imageURL} />
               
               <div className={styles.infos}>
                 <h1 id={styles.movieName}>{item.name}</h1>
