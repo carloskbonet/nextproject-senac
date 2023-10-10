@@ -56,6 +56,13 @@
     border-radius: 5px;
 }
 
+.input {
+    border: 2px solid black;
+    border-radius: 3px;
+    margin: 10px;
+    
+}
+
 .singleComment {
     margin-top: 10px;
     font-size: 18px;

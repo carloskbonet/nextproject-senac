@@ -14,6 +14,7 @@ CREATE TABLE "movie" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "name" TEXT NOT NULL,
     "releaseDate" TEXT NOT NULL,
+    "imageURL" TEXT,
     "created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" DATETIME NOT NULL
 );
@@ -22,6 +23,7 @@ CREATE TABLE "movie" (
 CREATE TABLE "rating" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "value" INTEGER NOT NULL,
+    "comment" TEXT,
     "created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" DATETIME NOT NULL,
     "userId" INTEGER NOT NULL,

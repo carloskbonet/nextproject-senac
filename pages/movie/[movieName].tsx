@@ -1,10 +1,54 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import styles from '@/styles/movie.module.css'
+import stylesHome from '@/styles/home.module.css'
+import { getCookie } from 'cookies-next';
+import { checkToken } from '@/services/tokenConfig';
 
 
 export default function movie({ movieName }: any) {
     const [data, setData]: any = useState(undefined);
+    const [formRating, setFormRating] = useState({
+        value: 0,
+        comment: ''
+    })
+
+    function handleFormEdit(event: any, name: string) {
+        setFormRating({
+            ...formRating,
+            [name]: event.target.value
+        });
+    }
+
+    async function formSubmit(event:any) {
+        try {
+            event.preventDefault();
+            
+            const cookieAuth = getCookie('authorization');
+            //const tokenInfos = checkToken(cookieAuth);
+            console.log(cookieAuth);
+
+            const response = await fetch(`/api/actions/rating/create`, {
+                method: "POST",
+                headers: {
+                    'Content-type': 'application/json',
+                },
+                body: JSON.stringify({
+                    value: Number(formRating.value),
+                    comment: formRating.comment,
+                    email: 'user@gmail.com',
+                    movieName: movieName
+                })
+            });
+
+            const responseJson = await response.json();
+
+            console.log(responseJson);
+        }
+        catch (err:any) {
+            alert(err.message);
+        }
+    }
 
     async function fetchData() {
         const response = await fetch(`/api/actions/movie/find?name=` + movieName, {
@@ -24,11 +68,12 @@ export default function movie({ movieName }: any) {
         <main className='flex min-h-screen flex-col'>
             {data != undefined ?
                 <div>
-                    <nav className="relative px-4 py-4 flex justify-between items-center bg-white">
-                        <Link href={`/`} className="text-sm text-gray-400 hover:text-gray-500">Home</Link>
+                    <nav className={stylesHome.navBar}>
+                        <Link className={stylesHome.createMovie} href={`/`}>Voltar</Link>
 
-                        <a className="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-gray-50 hover:bg-gray-100 text-sm text-gray-900 font-bold  rounded-xl transition duration-200" href="#">Sign In</a>
-                        <a className="hidden lg:inline-block py-2 px-6 bg-blue-500 hover:bg-blue-600 text-sm text-white font-bold rounded-xl transition duration-200" href="#">Sign up</a>
+
+                        <button className={stylesHome.logout}>Log Out</button>
+
                     </nav>
 
                     <div className={styles.body}>
@@ -45,15 +90,30 @@ export default function movie({ movieName }: any) {
                         </div>
 
                         <div className={styles.comments}>
+                            <h1>Avalie o Filme</h1>
+
+                            <form onSubmit={formSubmit}>
+                                <div className={styles.singleComment}>
+                                    <input className={styles.input} type="number" value={formRating.value} 
+                                    onChange={(event) => {handleFormEdit(event, 'value')}} />
+                                    <br />
+                                    <textarea className={styles.input} placeholder='Digite um comentário' value={formRating.comment}
+                                    onChange={(event) => {handleFormEdit(event, 'comment')}} />
+
+                                </div>
+                            </form>
+                        </div>
+
+                        <div className={styles.comments}>
                             <h1>Comentários</h1>
 
                             {data.ratings.map(rating => (
                                 <div className={styles.singleComment}>
-                                    <label>UserName: Nome do usuário que avaliou</label>
+                                    <label>UserName: {rating.user.email}</label>
                                     <br />
                                     <label>Nota: {rating.value}</label>
                                     <br />
-                                    <label>Comentário: Ainda não tem</label>
+                                    <label>Comentário: {rating.comment}</label>
                                 </div>
                             ))}
 

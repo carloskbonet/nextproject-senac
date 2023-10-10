@@ -17,30 +17,32 @@ model user {
   email    String  @unique
   password String
 
-  created_at  DateTime @default(now())
-  updated_at  DateTime  @updatedAt
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
   ratings rating[]
 }
 
 model movie {
-  id          Int      @id @unique @default(autoincrement())
+  id          Int     @id @unique @default(autoincrement())
   name        String  @unique
   releaseDate String
+  imageURL    String?
 
-  created_at  DateTime @default(now())
-  updated_at  DateTime  @updatedAt
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
-  genres genre[]
+  genres  genre[]
   ratings rating[]
 }
 
 model rating {
-  id    Int @id @unique @default(autoincrement())
-  value Int
+  id      Int     @id @unique @default(autoincrement())
+  value   Int
+  comment String?
 
-  created_at  DateTime @default(now())
-  updated_at  DateTime  @updatedAt
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
   userId  Int
   movieId Int
@@ -52,8 +54,8 @@ model genre {
   id   Int    @id @unique @default(autoincrement())
   name String
 
-  created_at  DateTime @default(now())
-  updated_at  DateTime  @updatedAt
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
   movies movie[]
 }

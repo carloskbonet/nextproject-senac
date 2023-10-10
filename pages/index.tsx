@@ -8,7 +8,7 @@ import styles from "@/styles/home.module.css";
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default function Home() {
+export default function Home( {verifiedToken} : any ) {
   const router = useRouter();
   const [name, setName] = useState("");
   const [data, setData]: any = useState(undefined);
@@ -126,9 +126,6 @@ export default function Home() {
 
 
 
-
-
-
 export function getServerSideProps({ req, res }: any) {
   try {
     const token = getCookie('authorization', { req, res });
@@ -137,9 +134,9 @@ export function getServerSideProps({ req, res }: any) {
       throw new Error('Invalid token');
     }
 
-    checkToken(token);
+    const verifiedToken = checkToken(token);
 
-    return { props: {} };
+    return { props: { verifiedToken } };
   }
   catch (err) {
     return {
