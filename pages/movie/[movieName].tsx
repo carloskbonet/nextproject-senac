@@ -88,7 +88,10 @@ export default function movie({ movieName }: any) {
                                 <br />
                                 <p>{data.releaseDate}</p>
                                 <br />
-                                <p>Nota: 0</p>
+                                <p>Gêneros:</p>
+                                {data.genres.map(item => (
+                                    <p>{item.name}</p>
+                                ))}
                             </div>
                         </div>
 

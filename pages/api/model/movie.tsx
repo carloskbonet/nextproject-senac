@@ -1,17 +1,32 @@
 import { prisma } from "@/db";
 
-export async function createMovieModel(_name:string , _releaseDate:string) {
+export async function createMovieModel(_name: string, _releaseDate: string, _genres: Array<number>) {
+    var connectArray: Array<any> = [];
+    console.log(_genres);
+    _genres.map(item => (
+        connectArray.push({
+            id: item
+        })
+    ));
+
+    connectArray.map(item => (
+        console.log(item)
+    ))
+
     const movie = await prisma.movie.create({
         data: {
             name: _name,
             releaseDate: _releaseDate,
+            genres: {
+                connect: connectArray
+            },
         }
     });
 
     return movie;
 }
 
-export async function findMovieByNameModel(_name:string) {
+export async function findMovieByNameModel(_name: string) {
     const movie = await prisma.movie.findUnique({
         where: {
             name: _name
@@ -19,16 +34,17 @@ export async function findMovieByNameModel(_name:string) {
         include: {
             ratings: {
                 include: {
-                    user : true,
+                    user: true,
                 }
-            }
+            },
+            genres: true
         }
     });
 
     return movie;
 }
 
-export async function findMovieByIdModel(_id:number) {
+export async function findMovieByIdModel(_id: number) {
     const movie = await prisma.movie.findUnique({
         where: {
             id: _id
@@ -44,7 +60,7 @@ export async function selectMoviesModel() {
     return movies;
 }
 
-export async function deleteMovieModel(_id:number) {
+export async function deleteMovieModel(_id: number) {
     const movie = await prisma.movie.delete({
         where: {
             id: _id
