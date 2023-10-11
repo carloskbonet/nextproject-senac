@@ -1,6 +1,6 @@
 import { createMovieModel, findMovieByNameModel, findMovieByIdModel , selectMoviesModel, deleteMovieModel } from "../model/movie";
 
-export async function createMovie(name:string, releaseDate:string) {
+export async function createMovie(name:string, releaseDate:string, genres:Array<number>) {
     try {
         const movieByName = await findMovieByNameModel(name);
 
@@ -8,7 +8,7 @@ export async function createMovie(name:string, releaseDate:string) {
             return { message: "Movie already registered." };
         }
 
-        const response = await createMovieModel(name, releaseDate);
+        const response = await createMovieModel(name, releaseDate, genres);
         
         return response;
     }

@@ -8,16 +8,11 @@ import styles from "@/styles/home.module.css";
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default function Home( {verifiedToken} : any ) {
+export default function Home({ verifiedToken }: any) {
   const router = useRouter();
   const [name, setName] = useState("");
-  const [data, setData]: any = useState(undefined);
-  const [movie, setMovie] = useState({
-    name: '',
-    releaseDate: '',
-    createdAt: '',
-    updatedAt: ''
-  })
+  const [data, setData]: Array<any> = useState(undefined);
+  const [saveData, setSaveData]: Array<any> = useState(undefined);
 
   async function fetchData() {
     const response = await fetch(`/api/actions/movie/select`, {
@@ -27,6 +22,7 @@ export default function Home( {verifiedToken} : any ) {
     const responseJson = await response.json();
 
     setData(responseJson);
+    setSaveData(responseJson);
   }
 
   useEffect(() => {
@@ -44,28 +40,26 @@ export default function Home( {verifiedToken} : any ) {
     setName(event.target.value);
   }
 
+  function searchFilter(array: Array<any>, text: string) {
+    if (text == '') {
+      return array;
+    }
+    else {
+      return array.filter(
+        (el: any) => el.name.toLowerCase().includes(text)
+      )
+    }
+  }
+
   // Form action - server req
   async function formSubmit(event: any) {
     try {
       event.preventDefault();
 
-      const response = await fetch(`/api/actions/movie/find?name=` + name, {
-        method: 'GET'
-      })
+      const filteredArray = searchFilter(saveData , name);
 
-      const responseJson = await response.json();
+      setData(filteredArray);
 
-      console.log(response.status);
-      console.log(responseJson);
-
-      setMovie({
-        ...movie,
-        name: responseJson.name,
-        releaseDate: responseJson.releaseDate,
-        createdAt: responseJson.created_at,
-        updatedAt: responseJson.updated_at
-      })
-      setData(responseJson);
     }
     catch (err) {
       console.log(err);
@@ -75,12 +69,12 @@ export default function Home( {verifiedToken} : any ) {
   function prettifyDateTime(str: string) {
     const [date, time] = str.split("T");
     const [year, month, day] = date.split("-")
-    
+
     return `${day}/${month}/${year}`
   }
 
-  function movieClick(movieName:string) {
-    router.push(`/movie/`+ movieName);
+  function movieClick(movieName: string) {
+    router.push(`/movie/` + movieName);
   }
 
   return (
@@ -100,9 +94,9 @@ export default function Home( {verifiedToken} : any ) {
       <div className={styles.gridContainer}>
         {data != undefined && data instanceof Array ?
           data.map(item => (
-            <div onClick={() => {movieClick(item.name)}} className={styles.container}>
+            <div onClick={() => { movieClick(item.name) }} className={styles.container}>
               <img className={styles.movieImg} src="/images/movie.png" alt="" />
-              
+
               <div className={styles.infos}>
                 <h1 id={styles.movieName}>{item.name}</h1>
 

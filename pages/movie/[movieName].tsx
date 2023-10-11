@@ -22,7 +22,6 @@ export default function movie({ movieName }: any) {
 
     async function formSubmit(event:any) {
         try {
-            event.preventDefault();
             
             const cookieAuth = getCookie('authorization');
             const tokenInfos = checkToken(cookieAuth);
@@ -88,7 +87,11 @@ export default function movie({ movieName }: any) {
                                 <br />
                                 <p>{data.releaseDate}</p>
                                 <br />
-                                <p>Nota: 0</p>
+                                {
+                                    data.genres.map(item => (
+                                        <p>{item.name}</p>
+                                    ))
+                                }
                             </div>
                         </div>
 
