@@ -95,16 +95,13 @@ export default function Home({ verifiedToken }: any) {
         {data != undefined && data instanceof Array ?
           data.map(item => (
             <div onClick={() => { movieClick(item.name) }} className={styles.container}>
-              <img className={styles.movieImg} src="/images/movie.png" alt="" />
+              <img className={styles.movieImg} src={item.imageURL} alt="" />
 
               <div className={styles.infos}>
                 <h1 id={styles.movieName}>{item.name}</h1>
 
                 <label id={styles.movieReleaseDateLabel}>Data de Lançamento: </label>
                 <a id={styles.movieReleaseDate}>{prettifyDateTime(item.releaseDate)}</a>
-
-                {/* <p>{prettifyDateTime(item.created_at)}</p> */}
-                {/* <p>{prettifyDateTime(item.updated_at)}</p> */}
 
               </div>
             </div>

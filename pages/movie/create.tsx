@@ -62,7 +62,7 @@ export default function createMovie() {
         });
     }
 
-    /*async function formSubmit(event: any) {
+    async function formSubmit(event: any) {
         event.preventDefault();
         
         if (imageUploaded == undefined) {
@@ -80,16 +80,19 @@ export default function createMovie() {
 
             const responseJson = await response.json();
 
-            console.log(responseJson);''
-            console.log(responseJson.secure_url);
+            if (response.status != 200) {
+                throw new Error(responseJson.message);
+            }
+
+            createMovie(responseJson.secure_url);
 
         }
         catch (err:any) {
             alert(err.message);
         }
-    }*/
+    }
 
-    async function formSubmit(event: any) {
+    async function createMovie(imgURL: string) {
         try {
             const response = await fetch(`/api/actions/movie/create`, {
                 method: "POST",
@@ -99,7 +102,8 @@ export default function createMovie() {
                 body: JSON.stringify({
                     name: formData.name,
                     releaseDate: formData.releaseDate,
-                    genres: selectedGenres
+                    genres: selectedGenres,
+                    image: imgURL
                 })
             });
 

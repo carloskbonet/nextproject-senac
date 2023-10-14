@@ -80,7 +80,7 @@ export default function movie({ movieName }: any) {
 
                     <div className={styles.body}>
                         <div className={styles.imageAndInfos}>
-                            <img src="/images/movie.png" className={styles.movieImg} />
+                            <img src={data.imageURL} className={styles.movieImg} />
 
                             <div className={styles.container}>
                                 <h1>{data.name}</h1>

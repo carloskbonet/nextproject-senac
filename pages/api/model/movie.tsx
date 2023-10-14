@@ -1,6 +1,6 @@
 import { prisma } from "@/db";
 
-export async function createMovieModel(_name: string, _releaseDate: string, _genres: Array<number>) {
+export async function createMovieModel(_name: string, _releaseDate: string, _image:string, _genres: Array<number>) {
     var connectArray: Array<any> = [];
 
     _genres.map(item => (
@@ -13,6 +13,7 @@ export async function createMovieModel(_name: string, _releaseDate: string, _gen
         data: {
             name: _name,
             releaseDate: _releaseDate,
+            imageURL: _image,
             genres: {
                 connect: connectArray
             }
